@@ -110,7 +110,7 @@
 			[coder finishDecoding];
 			if (![LNRemoteView items:items isStaleForTimeInterval:interval sinceLastLoadDate:lastLoadDate]) {
 				self.loading = NO;
-				LNLog(@"hit cache of %d items of page '%@' on %@", items.count, name, lastLoadDate);
+				NSLog(@"hit cache of %d items of page '%@' on %@", items.count, name, lastLoadDate);
 				[UIView animateWithDuration:.25 animations:^{
 					self.alpha = items.count > 0;
 				}];
@@ -242,90 +242,6 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 	return self.items.count;
-}
-
-@end
-
-@implementation LNItemsView
-{
-	UICollectionViewFlowLayout *_listLayout;
-	UICollectionViewFlowLayout *_gridLayout;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-	UICollectionViewFlowLayout *listLayout = [[UICollectionViewFlowLayout alloc] init];
-	listLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-	listLayout.itemSize = CGSizeMake(320, 474);
-	listLayout.minimumInteritemSpacing = 0;
-	listLayout.minimumLineSpacing = 15;
-	listLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-	
-	UICollectionViewFlowLayout *gridLayout = [[UICollectionViewFlowLayout alloc] init];
-	gridLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-	gridLayout.itemSize = CGSizeMake(144, 175);
-	gridLayout.minimumInteritemSpacing = 12;
-	gridLayout.minimumLineSpacing = 10;
-	gridLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
-	
-    self = [super initWithFrame:frame collectionViewLayout:gridLayout];
-    if (self) {
-		_gridStyle = YES;
-		_listLayout = listLayout;
-		_gridLayout = gridLayout;
-	}
-	return self;
-}
-
-- (NSDictionary *)parametersForPage:(NSUInteger)page
-{
-	NSMutableDictionary *dict = [[super parametersForPage:page] mutableCopy];
-	dict[@"max_wanters"]  = @6;
-	dict[@"max_comments"] = @1;
-
-	return dict;
-}
-
-- (void)setGridStyle:(BOOL)gridStyle
-{
-	if (_gridStyle == gridStyle) {
-		return;
-	}
-	_gridStyle = gridStyle;
-	UICollectionViewFlowLayout *layout = _gridStyle ? _gridLayout : _listLayout;
-	if (gridStyle) {
-		self.backgroundColor = [UIColor clearColor];
-	}
-	else {
-		self.backgroundColor = [UIColor whiteColor];
-	}
-	[self setCollectionViewLayout:layout animated:NO];
-	self.contentOffset = CGPointZero;
-}
-
-- (void)setDataSourceReady
-{
-	self.dataSource = self.remoteDelegate;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[LNHTTPClient.shared cancelAllHTTPOperationsWithMethod:nil path:self.servicePath];
-	
-	self.loading = NO;
-}
-
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
-{
-	LNItemCell *cell = (LNItemCell *)[self cellForItemAtIndexPath:indexPath];
-	[self.remoteDelegate itemsView:self openItem:cell.item];
-}
-
-- (CGSize)collectionView:(UICollectionView *)remoteView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	return [self.remoteDelegate collectionView:self layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
 }
 
 @end
