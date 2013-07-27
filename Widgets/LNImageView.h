@@ -1,6 +1,5 @@
 //
 //  LNImageView.h
-//  Threadflip
 //
 //  Created by Rex Sheng on 6/28/13.
 //  Copyright (c) 2013 Threadflip. All rights reserved.
