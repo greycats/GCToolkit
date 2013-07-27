@@ -21,4 +21,6 @@
 - (UIImage *)resizedImage:(CGFloat)ratio edgeInsets:(UIEdgeInsets)insets;
 - (UIImage *)clippingMask:(CGColorRef)clippingMask;
 
+- (CGImageRef)imageWithAlphaChannel;
+
 @end

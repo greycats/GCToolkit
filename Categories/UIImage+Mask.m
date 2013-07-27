@@ -89,7 +89,7 @@
 	return img;
 }
 
-+ (UIImage *)imageFromColors:(NSArray *)colors locations:(NSArray *)locationsObjects size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
++ (UIImage *)imageFromColors:(NSArray *)colors verticalLocations:(NSArray *)locationsObjects size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
 {
 	return [self imageFromSize:size block:^(CGContextRef context) {
 		CGRect rect = (CGRect){.size = size};
@@ -114,9 +114,34 @@
 	}];
 }
 
++ (UIImage *)imageFromColors:(NSArray *)colors horizontalLocations:(NSArray *)locationsObjects size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
+{
+	return [self imageFromSize:size block:^(CGContextRef context) {
+		CGRect rect = (CGRect){.size = size};
+		UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:cornerRadius];
+		CGContextAddPath(context, path.CGPath);
+		
+		NSMutableArray *convertedColorArray = [NSMutableArray arrayWithCapacity:colors.count];
+		for (UIColor *color in colors) {
+			[convertedColorArray addObject:(__bridge id)[color CGColor]];
+		}
+		
+		CGFloat locations[locationsObjects.count];
+		for (int i = 0; i < locationsObjects.count; i++) {
+			locations[i] = [locationsObjects[i] floatValue];
+		}
+		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+		CGGradientRef gradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)convertedColorArray, locations);
+		CFRelease(colorSpace);
+		CGContextClip(context);
+		CGContextDrawLinearGradient(context, gradient, CGPointMake(0, 0.5), CGPointMake(size.width, 0.5), 0);
+		CFRelease(gradient);
+	}];
+}
+
 + (UIImage *)imageFromColor:(UIColor *)color toColor:(UIColor *)toColor size:(CGSize)size cornerRadius:(CGFloat)cornerRadius
 {
-	return [self imageFromColors:@[color, toColor] locations:@[@0, @1] size:size cornerRadius:cornerRadius];
+	return [self imageFromColors:@[color, toColor] verticalLocations:@[@0, @1] size:size cornerRadius:cornerRadius];
 }
 
 @end

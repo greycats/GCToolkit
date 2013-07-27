@@ -28,7 +28,7 @@
 
 - (UIImage*)maskWithMask:(UIImage *)maskImage
 {
-	CGImageRef maskRef = maskImage.CGImage; 
+	CGImageRef maskRef = maskImage.CGImage;
 	
 	CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
 										CGImageGetHeight(maskRef),
@@ -112,6 +112,29 @@
 	}];
 }
 
+- (CGImageRef)imageWithAlphaChannel
+{
+	size_t width = self.size.width;
+	size_t height = self.size.height;
+	
+	NSMutableData *data = [NSMutableData dataWithLength:width*height];
+	
+	CGContextRef context = CGBitmapContextCreate([data mutableBytes], width, height, 8, width, NULL, kCGImageAlphaOnly);
+	
+	// Set the blend mode to copy to avoid any alteration of the source data
+	CGContextSetBlendMode(context, kCGBlendModeCopy);
+	
+	// Draw the image to extract the alpha channel
+	CGContextDrawImage(context, CGRectMake(0.0, 0.0, width, height), self.CGImage);
+	CGContextRelease(context);
+	
+	CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData((__bridge CFMutableDataRef)data);
+	
+	CGImageRef maskingImage = CGImageMaskCreate(width, height, 8, 8, width, dataProvider, NULL, TRUE);
+	CGDataProviderRelease(dataProvider);
+	return maskingImage;
+}
+
 - (UIImage *)resizedImageFitSize:(CGSize)frameSize edgeInsets:(UIEdgeInsets)insets
 {
 	CGSize imageSize = self.size;
@@ -148,14 +171,14 @@
 - (UIImage *)resizedImage:(CGFloat)ratio edgeInsets:(UIEdgeInsets)insets
 {
 	CGFloat scale = [UIScreen mainScreen].scale;
-	UIImage *sourceImage = self; 
+	UIImage *sourceImage = self;
 	
 	CGImageRef imageRef = [sourceImage CGImage];
 	CGColorSpaceRef colorSpaceInfo = CGColorSpaceCreateDeviceRGB();
 	
 	CGFloat targetWidth = (sourceImage.size.width * ratio) * scale;
 	CGFloat targetHeight = (sourceImage.size.height * ratio) * scale;
-//	NSLog(@"%f x %f", targetWidth, targetHeight);
+	//	NSLog(@"%f x %f", targetWidth, targetHeight);
 	CGFloat width = targetWidth, height = targetHeight;
 	if (sourceImage.imageOrientation != UIImageOrientationUp && sourceImage.imageOrientation != UIImageOrientationDown) {
 		CGFloat i = targetHeight;
@@ -190,11 +213,11 @@
 	CGContextDrawImage(bitmap, CGRectMake(0, 0, targetWidth, targetHeight), imageRef);
 	CGImageRef ref = CGBitmapContextCreateImage(bitmap);
 	UIImage *image = [UIImage imageWithCGImage:ref scale:scale orientation:UIImageOrientationUp];
-
+	
 	CGContextRelease(bitmap);
 	CGImageRelease(ref);
 	
-	return image; 
+	return image;
 }
 
 - (UIImage *)blendMode:(CGBlendMode)blendMode color:(CGColorRef)color reverse:(BOOL)reverse
@@ -235,7 +258,7 @@
 			CGContextClipToMask(context, rect, self.CGImage);
 			CGContextSetFillColorWithColor(context, clippingMask);
 			CGContextFillRect(context, rect);
-		}	
+		}
 	}];
 }
 
