@@ -148,7 +148,7 @@
 - (UIImage *)resizedImage:(CGFloat)ratio edgeInsets:(UIEdgeInsets)insets
 {
 	CGFloat scale = [UIScreen mainScreen].scale;
-	UIImage* sourceImage = self; 
+	UIImage *sourceImage = self; 
 	
 	CGImageRef imageRef = [sourceImage CGImage];
 	CGColorSpaceRef colorSpaceInfo = CGColorSpaceCreateDeviceRGB();
