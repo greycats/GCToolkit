@@ -82,6 +82,20 @@
 	return [self isValid:self.text];
 }
 
+- (BOOL)validate:(NSError *__autoreleasing *)error
+{
+	if (![self isValid:self.text]) {
+		if (error) {
+			*error = [NSError errorWithDomain:NSArgumentDomain code:0 userInfo:@{
+					NSLocalizedDescriptionKey: NSLocalizedString(self.failedValidateText, nil) ?: @"",
+			 NSLocalizedFailureReasonErrorKey: NSLocalizedString(self.failedValidateReason, nil) ?: @""
+					  }];
+		}
+		return NO;
+	}
+	return YES;
+}
+
 - (void)setClearImage:(UIImage *)clearImage
 {
 	_clearImage = clearImage;
