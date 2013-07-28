@@ -26,7 +26,7 @@
 	return image;
 }
 
-- (UIImage*)maskWithMask:(UIImage *)maskImage
+- (UIImage *)maskWithMask:(UIImage *)maskImage
 {
 	CGImageRef maskRef = maskImage.CGImage;
 	
