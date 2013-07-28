@@ -134,7 +134,7 @@
 	if (self.leftView && self.leftViewMode == UITextFieldViewModeAlways) {
 		bounds.origin.x += CGRectGetMaxX(self.leftView.frame);
 	}
-	bounds.size.width -= bounds.origin.x * 2;
+	bounds.size.width -= bounds.origin.x + _edgeInsetX;
 	return bounds;
 }
 
