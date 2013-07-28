@@ -34,3 +34,10 @@ typedef NS_ENUM(NSUInteger, LNTextValidateType) {
 - (void)cleanUp;
 
 @end
+
+
+@interface UIView (LNTextFieldValidate)
+
+- (BOOL)validateAllTextFields:(NSError **)error;
+
+@end;

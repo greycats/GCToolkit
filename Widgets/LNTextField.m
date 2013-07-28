@@ -168,3 +168,17 @@
 }
 
 @end
+
+@implementation UIView (LNTextFieldValidate)
+
+- (BOOL)validateAllTextFields:(NSError *__autoreleasing *)error
+{
+	for (LNTextField *textfield in self.subviews) {
+		if ([textfield isKindOfClass:[LNTextField class]]) {
+			if (![textfield validate:error]) return NO;
+		}
+	}
+	return YES;
+}
+
+@end
