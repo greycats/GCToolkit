@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LNToolkit"
-  s.version      = "0.2.0"
+  s.version      = "0.2.1"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
   s.homepage     = "https://github.com/lognllc/LNToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -13,12 +13,15 @@ Pod::Spec.new do |s|
   s.subspec 'UIKit' do |ss|
     ss.source_files = 'Categories/UIColor*.{h,m}', 'Categories/UIImage*.{h,m}', 'Widgets/LN{SegmentedControl,TextField}.{h,m}'
   end
-  s.subspec 'HUD' do |ss|
+  
+  s.subspec 'MBProgressHUD' do |ss|
+    ss.dependency 'MBProgressHUD'
     ss.source_files = 'Categories/MB*.{h,m}', 'Categories/UIViewController+HUD.{h,m}'
   end
   
   s.subspec 'RSMenuView' do |ss|
     ss.dependency 'RSMenuView', '~> 1.0'
+    ss.dependency 'LNToolkit/UIKit'
     ss.source_files = 'Widgets/LN{Avtar,Badge}*.{h,m}'
   end
   

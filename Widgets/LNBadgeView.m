@@ -8,10 +8,18 @@
 
 #import "LNBadgeView.h"
 #import "UIImage+Mask.h"
+#import "UIColor+Hex.h"
+#import <QuartzCore/QuartzCore.h>
+
+@interface LNBadgeView ()
+
+@property (nonatomic, weak) UIImageView *backgroundView;
+@property (nonatomic, weak) UILabel *textLabel;
+
+@end
 
 @implementation LNBadgeView
 {
-	__weak UILabel *_textLabel;
 	NSString *_identifier;
 	id observer;
 }
@@ -34,9 +42,12 @@
 		imageView.layer.shadowOffset = CGSizeMake(0, 1.5);
 		imageView.layer.shadowOpacity = .5;
 		imageView.layer.shadowRadius = 1.5;
+		imageView.layer.shouldRasterize = YES;
+		imageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+		
 		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		self.clipsToBounds = NO;
-		[self addSubview:imageView];
+		[self addSubview:_backgroundView = imageView];
 		UILabel *textLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		textLabel.font = [UIFont boldApplicationFontOfSize:.6 * textLabel.bounds.size.height];
@@ -47,6 +58,11 @@
 		[self addSubview:_textLabel = textLabel];
     }
     return self;
+}
+
+- (void)setBackgroundImage:(UIImage *)backgroundImage
+{
+	self.backgroundView.image = backgroundImage;
 }
 
 - (id)initWithIdentifier:(NSString *)identifier attributes:(NSDictionary *)attributes
