@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) NSString *badgeNumber;
 @property (nonatomic, strong) UIImage *backgroundImage UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) NSDictionary *textAttributes UI_APPEARANCE_SELECTOR;
 
 @end

@@ -35,7 +35,9 @@
 {
 	if (self = [super initWithFrame:frame]) {
 		UIImage *image = [UIImage imageFromColors:@[[UIColor colorWithHexRGB:0xfa6f77], [UIColor colorWithHexRGB:0xea2d36], [UIColor colorWithHexRGB:0xe70f19], [UIColor colorWithHexRGB:0xc50103]]
-										locations:@[@0, @.49, @.5, @1] size:self.bounds.size cornerRadius:radius];
+								verticalLocations:@[@0, @.49, @.5, @1]
+											 size:self.bounds.size
+									 cornerRadius:radius];
 		UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
 		imageView.frame = self.bounds;
 		imageView.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -50,7 +52,6 @@
 		[self addSubview:_backgroundView = imageView];
 		UILabel *textLabel = [[UILabel alloc] initWithFrame:self.bounds];
 		textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		textLabel.font = [UIFont boldApplicationFontOfSize:.6 * textLabel.bounds.size.height];
 		textLabel.backgroundColor = [UIColor clearColor];
 		textLabel.textColor = [UIColor whiteColor];
 		textLabel.textAlignment = NSTextAlignmentCenter;
@@ -62,7 +63,18 @@
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
 {
+	_backgroundImage = backgroundImage;
 	self.backgroundView.image = backgroundImage;
+}
+
+- (void)setTextAttributes:(NSDictionary *)textAttributes
+{
+	_textAttributes = textAttributes;
+	CGFloat preferedSize = .6 * self.textLabel.bounds.size.height;
+	UIFont *font = textAttributes[NSFontAttributeName] ?: [UIFont systemFontOfSize:preferedSize];
+	_textLabel.font = font;
+	UIColor *color = textAttributes[NSForegroundColorAttributeName] ?: [UIColor whiteColor];
+	_textLabel.textColor = color;
 }
 
 - (id)initWithIdentifier:(NSString *)identifier attributes:(NSDictionary *)attributes
