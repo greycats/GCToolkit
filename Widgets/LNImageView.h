@@ -2,7 +2,7 @@
 //  LNImageView.h
 //
 //  Created by Rex Sheng on 6/28/13.
-//  Copyright (c) 2013 Threadflip. All rights reserved.
+//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

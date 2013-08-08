@@ -1,9 +1,8 @@
 //
 //  LNImageView.m
-//  Threadflip
 //
 //  Created by Rex Sheng on 6/28/13.
-//  Copyright (c) 2013 Threadflip. All rights reserved.
+//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
 //
 
 #import "LNImageView.h"
@@ -15,19 +14,21 @@
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
 
-	__weak id weakSelf = self;
+	__weak __typeof(&*self)weakSelf = self;
 	[self setImageWithURLRequest:request
 		 placeholderImage:placeholderImage
 				  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-					  LNImageView *imageView = weakSelf;
-					  if (!imageView) return;
-					  imageView->_networkImage = image;
+					  __strong __typeof(&*weakSelf)strongSelf = weakSelf;
+					  if (!strongSelf) {
+						  return;
+					  }
+					  strongSelf->_networkImage = image;
 					  NSTimeInterval duration = response == nil ? 0 : .3;
-					  [UIView transitionWithView:imageView
+					  [UIView transitionWithView:strongSelf
 										duration:duration
 										 options:UIViewAnimationOptionTransitionCrossDissolve
 									  animations:^{
-										  imageView.image = image;
+										  strongSelf.image = image;
 									  }
 									  completion:nil];
 				  } failure:nil];
