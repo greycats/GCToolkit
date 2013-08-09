@@ -33,6 +33,8 @@ typedef NS_ENUM(NSUInteger, LNTextValidateType) {
 - (BOOL)validate:(NSError **)error;
 - (void)cleanUp;
 
++ (void)registerValidation:(NSUInteger)validationType regularExpression:(NSString *)expression;
+
 @end
 
 

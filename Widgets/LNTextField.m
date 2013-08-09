@@ -9,6 +9,34 @@
 
 @implementation LNTextField
 
++ (NSMutableDictionary *)registry
+{
+	static dispatch_once_t onceToken;
+	static NSMutableDictionary *registry;
+	dispatch_once(&onceToken, ^{
+		registry = [NSMutableDictionary dictionary];
+	});
+	return registry;
+}
+
++ (void)initialize
+{
+	[self registerValidation:LNTextValidateEmail regularExpression:@"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+	 @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+	 @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+	 @"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+	 @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+	 @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+	 @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"];
+	[self registerValidation:LNTextValidateRequired regularExpression:@"^\\S(?:.*?\\S)?$"];
+}
+
++ (void)registerValidation:(NSUInteger)validationType regularExpression:(NSString *)expression
+{
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF matches %@", expression];
+	self.registry[@(validationType)] = predicate;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
 	if (self = [super initWithFrame:frame]) {
@@ -48,32 +76,20 @@
 	_validateType = LNTextValidateCustom;
 	self.validatePredicate = [NSPredicate predicateWithFormat:@"self matches %@", validateRegularExpression];
 }
+
 //This is special. "isValid:" method returns YES if ANY ONE of flag's predicate is true. ATTENTION!
 - (BOOL)isValid:(NSString *)text
 {
 	if (_validateType == LNTextValidateNone) return YES;
-    BOOL isValid = NO;
-    NSString *reg = nil;
-    NSPredicate *predicate = nil;
-	if (_validateType & LNTextValidateEmail) {
-        reg = @"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-		@"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-		@"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-		@"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-		@"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-		@"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-		@"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-        predicate = [NSPredicate predicateWithFormat:@"SELF matches %@", reg];
-        isValid |= [predicate evaluateWithObject:text.lowercaseString];
-	}
-	if (_validateType & LNTextValidateRequired) {
-		reg = @"^\\S(?:.*?\\S)?$";
-        predicate = [NSPredicate predicateWithFormat:@"SELF matches %@", reg];
-        isValid |= [predicate evaluateWithObject:text];
-	}
+	__block BOOL isValid = NO;
 	if (_validateType & LNTextValidateCustom) {
-        isValid |= [_validatePredicate evaluateWithObject:text];
+		isValid |= [_validatePredicate evaluateWithObject:text];
 	}
+	[self.class.registry enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		if (_validateType & [key integerValue]) {
+			isValid |= [(NSPredicate *)obj evaluateWithObject:text];
+		}
+	}];
     return isValid;
 }
 
