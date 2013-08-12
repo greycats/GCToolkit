@@ -7,7 +7,7 @@
 //
 
 #import "LNBadgeView.h"
-#import "UIImage+Mask.h"
+#import "UIImage+LogN.h"
 #import "UIColor+Hex.h"
 #import <QuartzCore/QuartzCore.h>
 
