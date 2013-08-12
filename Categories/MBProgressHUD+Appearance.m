@@ -20,7 +20,7 @@ NSString * const HUDAttributeMargin = @"margin";
 static char kHUDAttributes;
 - (void)setHUDAttributes:(NSDictionary *)HUDAttributes
 {
-	objc_setAssociatedObject(self, &kHUDAttributes, HUDAttributes, OBJC_ASSOCIATION_COPY);
+	objc_setAssociatedObject(self, &kHUDAttributes, HUDAttributes, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 - (NSDictionary *)HUDAttributes

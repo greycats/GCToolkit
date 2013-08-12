@@ -55,9 +55,9 @@
 - (void)setTextAttributes:(NSDictionary *)textAttributes
 {
 	_textAttributes = textAttributes;
-	UIFont *font = textAttributes[UITextAttributeFont];
+	UIFont *font = textAttributes[NSFontAttributeName];
 	if (font) self.font = font;
-	UIColor *textColor = textAttributes[UITextAttributeTextColor];
+	UIColor *textColor = textAttributes[NSForegroundColorAttributeName];
 	if (textColor) self.textColor = textColor;
 }
 

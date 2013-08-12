@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
     ss.source_files = 'Categories/UIColor*.{h,m}', 'Categories/UIImage*.{h,m}', 'Widgets/LN{SegmentedControl,TextField}.{h,m}'
   end
   
+  # we should turn to SVProgressHUD
   s.subspec 'MBProgressHUD' do |ss|
     ss.dependency 'MBProgressHUD'
     ss.source_files = 'Categories/MB*.{h,m}', 'Categories/UIViewController+HUD.{h,m}'
