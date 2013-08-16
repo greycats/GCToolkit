@@ -179,8 +179,23 @@
 - (void)drawPlaceholderInRect:(CGRect)rect
 {
 	[[self.textColor colorWithAlphaComponent:_placeholderAlpha] set];
-	
-	[self.placeholder drawInRect:CGRectInset(rect, 0, (rect.size.height - self.font.lineHeight) / 2) withFont:self.font];
+
+	CGRect inset = CGRectInset(rect, 0, (rect.size.height - self.font.lineHeight) / 2);
+#ifdef __IPHONE_7_0
+	if ([self.placeholder respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+		[self.placeholder drawInRect:inset withAttributes:@{ NSFontAttributeName : self.font }];
+	}
+	else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+
+		[self.placeholder drawInRect:inset withFont:self.font];
+
+#pragma clang diagnostic pop
+	}
+#else
+	[self.placeholder drawInRect:inset withFont:self.font];
+#endif
 }
 
 @end

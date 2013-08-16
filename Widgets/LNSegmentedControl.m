@@ -26,7 +26,7 @@
 				if (font != label.font) {
 					label.font = font;
 					CGRect frame = label.frame;
-					frame.size = [label.text sizeWithFont:font];
+					frame.size = [label sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
 					label.frame = frame;
 				}
 			}
