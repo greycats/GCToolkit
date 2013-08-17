@@ -28,10 +28,11 @@ typedef NS_ENUM(NSUInteger, LNTextValidateType) {
 @property (nonatomic, strong) NSDictionary *textAttributes UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIImage *backgroundImage UI_APPEARANCE_SELECTOR;
 
-- (BOOL)isValid __deprecated; // use -validate:
 - (BOOL)isValid:(NSString *)text;
 - (BOOL)validate:(NSError **)error;
 - (void)cleanUp;
+
++ (void)registerValidation:(NSUInteger)validationType regularExpression:(NSString *)expression;
 
 @end
 

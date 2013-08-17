@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LNToolkit"
-  s.version      = "0.2.0"
+  s.version      = "0.2.5"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
   s.homepage     = "https://github.com/lognllc/LNToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -13,6 +13,12 @@ Pod::Spec.new do |s|
   s.subspec 'UIKit' do |ss|
     ss.source_files = 'Categories/UIColor*.{h,m}', 'Categories/UIImage*.{h,m}', 'Widgets/LN{SegmentedControl,TextField}.{h,m}'
   end
+  
+  s.subspec 'Bubble' do |ss|
+    ss.source_files = 'Widgets/RSBubbleView.{h,m}'
+  end
+  
+  # we should turn to SVProgressHUD
   s.subspec 'MBProgressHUD' do |ss|
     ss.dependency 'MBProgressHUD'
     ss.source_files = 'Categories/MB*.{h,m}', 'Categories/UIViewController+HUD.{h,m}'

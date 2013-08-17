@@ -18,15 +18,15 @@
 		BOOL selected = [[view valueForKey:@"selected"] boolValue];
 		for (UILabel *label in view.subviews) {
 			if ([label isKindOfClass:[UILabel class]]) {
-				UIFont *font = [self titleTextAttributesForState:UIControlStateNormal][UITextAttributeFont];
+				UIFont *font = [self titleTextAttributesForState:UIControlStateNormal][NSFontAttributeName];
 				if (selected) {
-					UIFont *_font = [self titleTextAttributesForState:UIControlStateSelected][UITextAttributeFont];
+					UIFont *_font = [self titleTextAttributesForState:UIControlStateSelected][NSFontAttributeName];
 					if (_font) font = _font;
 				}
 				if (font != label.font) {
 					label.font = font;
 					CGRect frame = label.frame;
-					frame.size = [label.text sizeWithFont:font];
+					frame.size = [label sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
 					label.frame = frame;
 				}
 			}
