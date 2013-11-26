@@ -182,7 +182,7 @@
 
 	CGRect inset = CGRectInset(rect, 0, (rect.size.height - self.font.lineHeight) / 2);
 #ifdef __IPHONE_7_0
-	if ([self.placeholder respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+	if ([self respondsToSelector:@selector(tintColor)]) {
 		[self.placeholder drawInRect:inset withAttributes:@{
 															NSFontAttributeName : self.font,
 															NSForegroundColorAttributeName : placeholderColor,
