@@ -46,6 +46,7 @@
 		self.keyboardType = UIKeyboardTypeDefault;
 		self.returnKeyType = UIReturnKeySearch;
 		self.autocapitalizationType = UITextAutocapitalizationTypeNone;
+		self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		self.clipsToBounds = YES;
 		_validateType = LNTextValidateNone;
 	}
@@ -172,7 +173,7 @@
 	UIColor *placeholderColor = [self.textColor colorWithAlphaComponent:self.placeholderAlpha];
 	
 	CGRect inset = CGRectInset(rect, 0, (rect.size.height - self.font.lineHeight) / 2);
-	if ([self respondsToSelector:@selector(drawInRect:withAttributes:)]) {
+	if ([self respondsToSelector:@selector(tintAdjustmentMode)]) {
 		[self.placeholder drawInRect:inset withAttributes:@{
 															NSFontAttributeName : self.font,
 															NSForegroundColorAttributeName : placeholderColor,
