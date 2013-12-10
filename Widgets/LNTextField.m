@@ -137,15 +137,6 @@
 
 - (CGRect)placeholderRectForBounds:(CGRect)bounds
 {
-#ifndef __IPHONE_7_0
-	bounds.origin.y = (bounds.size.height - self.font.lineHeight) / 2;
-	bounds.size.height = self.font.lineHeight;
-#else
-	if (UIDevice.currentDevice.systemVersion.floatValue < 7) {
-		bounds.origin.y = (bounds.size.height - self.font.lineHeight) / 2;
-		bounds.size.height = self.font.lineHeight;
-	}
-#endif
 	bounds.origin.x = _edgeInsetX;
 	if (self.leftView && self.leftViewMode == UITextFieldViewModeAlways) {
 		bounds.origin.x += CGRectGetMaxX(self.leftView.frame);
@@ -179,10 +170,9 @@
 - (void)drawPlaceholderInRect:(CGRect)rect
 {
 	UIColor *placeholderColor = [self.textColor colorWithAlphaComponent:self.placeholderAlpha];
-
+	
 	CGRect inset = CGRectInset(rect, 0, (rect.size.height - self.font.lineHeight) / 2);
-#ifdef __IPHONE_7_0
-	if ([self respondsToSelector:@selector(tintColor)]) {
+	if ([self respondsToSelector:@selector(drawInRect:withAttributes:)]) {
 		[self.placeholder drawInRect:inset withAttributes:@{
 															NSFontAttributeName : self.font,
 															NSForegroundColorAttributeName : placeholderColor,
@@ -191,16 +181,12 @@
 	else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
-
+		
 		[placeholderColor set];
 		[self.placeholder drawInRect:inset withFont:self.font];
-
+		
 #pragma clang diagnostic pop
 	}
-#else
-	[placeholderColor set];
-	[self.placeholder drawInRect:inset withFont:self.font];
-#endif
 }
 
 @end
