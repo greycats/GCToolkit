@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
-  s.name         = "LNToolkit"
-  s.version      = "0.2.7"
+  s.name         = "GCToolkit"
+  s.version      = "0.2.8"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
-  s.homepage     = "https://github.com/greycats/LNToolkit"
+  s.homepage     = "https://github.com/greycats/GCToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { "Rex Sheng" => "shengning@gmail.com" }
-  s.source       = { :git => "https://github.com/greycats/LNToolkit.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/greycats/GCToolkit.git", :tag => s.version.to_s }
   s.platform     = :ios, '6.0'
   s.source_files = 'Categories/**/*.{h,m}', 'Categories/**/*.{h,m}'
   s.requires_arc = true
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   
   s.subspec 'RSMenuView' do |ss|
     ss.dependency 'RSMenuView', '~> 1.0'
-    ss.dependency 'LNToolkit/UIKit'
+    ss.dependency 'GCToolkit/UIKit'
     ss.framework = 'QuartzCore'
     ss.source_files = 'Widgets/LN{Avtar,Badge}*.{h,m}'
   end
