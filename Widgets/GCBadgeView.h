@@ -1,6 +1,5 @@
 //
 //  GCBadgeView.h
-//  threadflip
 //
 //  Created by Rex Sheng on 5/3/13.
 //  Copyright (c) 2013 Rex Sheng

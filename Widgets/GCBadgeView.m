@@ -1,6 +1,5 @@
 //
 //  GCBadgeView.m
-//  threadflip
 //
 //  Created by Rex Sheng on 5/3/13.
 //  Copyright (c) 2013 Rex Sheng
@@ -56,8 +55,8 @@
 		textLabel.textAlignment = NSTextAlignmentCenter;
 		textLabel.adjustsFontSizeToFitWidth = YES;
 		[self addSubview:_textLabel = textLabel];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
@@ -87,8 +86,8 @@
 																	 usingBlock:^(NSNotification *note) {
 																		 self.count = [note.object[@"count"] unsignedIntegerValue];
 																	 }];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)setCount:(NSUInteger)count
