@@ -1,13 +1,12 @@
 //
-//  LNRemoteView.m
+//  GCRemoteView.m
 //
 //  Created by Rex Sheng on 4/26/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
-#import "LNRemoteView.h"
+#import "GCRemoteView.h"
 
-@implementation LNRemoteView
+@implementation GCRemoteView
 {
 	CGFloat lastContentOffset, startContentOffset;
 	NSDate *_lastLoadDate;
@@ -108,7 +107,7 @@
 			NSArray *items = [coder decodeObjectForKey:@"I"];
 			NSDate *lastLoadDate = [coder decodeObjectForKey:@"D"];
 			[coder finishDecoding];
-			if (![LNRemoteView items:items isStaleForTimeInterval:interval sinceLastLoadDate:lastLoadDate]) {
+			if (![GCRemoteView items:items isStaleForTimeInterval:interval sinceLastLoadDate:lastLoadDate]) {
 				self.loading = NO;
 				NSLog(@"hit cache of %d items of page '%@' on %@", items.count, name, lastLoadDate);
 				[UIView animateWithDuration:.25 animations:^{

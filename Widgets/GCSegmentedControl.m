@@ -1,13 +1,12 @@
 //
-//  LNSegmentedControl.m
+//  GCSegmentedControl.m
 //
 //  Created by Rex Sheng on 4/19/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
-#import "LNSegmentedControl.h"
+#import "GCSegmentedControl.h"
 
-@implementation LNSegmentedControl
+@implementation GCSegmentedControl
 {
 	BOOL layoutedOnce;
 }

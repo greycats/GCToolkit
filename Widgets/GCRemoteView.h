@@ -1,20 +1,19 @@
 //
-//  LNRemoteView.h
+//  GCRemoteView.h
 //
 //  Created by Rex Sheng on 4/26/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
 #import <UIKit/UIKit.h>
 #import "AFNetworking.h"
 
-@class LNRemoteView;
+@class GCRemoteView;
 
-#pragma mark - LNRemoteView
+#pragma mark - GCRemoteView
 
-@protocol LNRemoteViewDelegate;
+@protocol GCRemoteViewDelegate;
 
-@interface LNRemoteView : UICollectionView <UICollectionViewDelegate, NSCoding>
+@interface GCRemoteView : UICollectionView <UICollectionViewDelegate, NSCoding>
 
 @property (nonatomic, strong) NSString *servicePath;
 @property (nonatomic, strong) NSString *resourcePath;
@@ -27,7 +26,7 @@
 @property (nonatomic, readonly) BOOL loading;
 
 @property (nonatomic, weak) UINavigationController *scrollsAffectNavigationController;
-@property (nonatomic, weak) id<LNRemoteViewDelegate> remoteDelegate;
+@property (nonatomic, weak) id<GCRemoteViewDelegate> remoteDelegate;
 @property (nonatomic, weak) AFHTTPClient *client;
 
 - (void)saveToCacheFile:(NSString *)name;
@@ -45,18 +44,18 @@
 
 #pragma mark - Delegate Protocols
 
-@protocol LNRemoteViewDelegate <NSObject>
+@protocol GCRemoteViewDelegate <NSObject>
 
 @optional
-- (NSDictionary *)remoteView:(LNRemoteView *)remoteView serviceParameterForPage:(NSUInteger)page;
+- (NSDictionary *)remoteView:(GCRemoteView *)remoteView serviceParameterForPage:(NSUInteger)page;
 
-- (BOOL)remoteViewShouldStartLoading:(LNRemoteView *)remoteView;
+- (BOOL)remoteViewShouldStartLoading:(GCRemoteView *)remoteView;
 
-- (void)remoteView:(LNRemoteView *)remoteView didLoadResponse:(id)response forPage:(NSUInteger)page;
-- (void)remoteView:(LNRemoteView *)remoteView didLoadWithError:(NSError *)error forPage:(NSUInteger)page;
+- (void)remoteView:(GCRemoteView *)remoteView didLoadResponse:(id)response forPage:(NSUInteger)page;
+- (void)remoteView:(GCRemoteView *)remoteView didLoadWithError:(NSError *)error forPage:(NSUInteger)page;
 
-- (id)remoteView:(LNRemoteView *)remoteView itemFromDictionary:(NSDictionary *)JSON;
+- (id)remoteView:(GCRemoteView *)remoteView itemFromDictionary:(NSDictionary *)JSON;
 
-- (NSArray *)remoteView:(LNRemoteView *)remoteView itemsForRemoteItems:(NSArray *)items forPage:(NSUInteger)page;
+- (NSArray *)remoteView:(GCRemoteView *)remoteView itemsForRemoteItems:(NSArray *)items forPage:(NSUInteger)page;
 
 @end

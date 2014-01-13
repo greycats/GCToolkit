@@ -1,8 +1,8 @@
 //
-//  UIImage+LogN.h
+//  UIImage+Masks.h
 //
 //  Created by Rex Sheng on 8/12/13.
-//  Copyright (c) 2013 Log(N). All rights reserved.
+//  Copyright (c) 2013 Rex Sheng
 //
 
 #import <UIKit/UIKit.h>

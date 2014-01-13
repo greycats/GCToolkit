@@ -1,13 +1,12 @@
 //
-//  LNImageView.m
+//  GCImageView.m
 //
 //  Created by Rex Sheng on 6/28/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
-#import "LNImageView.h"
+#import "GCImageView.h"
 
-@implementation LNImageView
+@implementation GCImageView
 
 - (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholderImage
 {

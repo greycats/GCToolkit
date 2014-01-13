@@ -1,24 +1,23 @@
 //
-//  LNBadgeView.m
+//  GCBadgeView.m
 //  threadflip
 //
 //  Created by Rex Sheng on 5/3/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
-#import "LNBadgeView.h"
-#import "UIImage+LogN.h"
+#import "GCBadgeView.h"
+#import "UIImage+Masks.h"
 #import "UIColor+Hex.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface LNBadgeView ()
+@interface GCBadgeView ()
 
 @property (nonatomic, weak) UIImageView *backgroundView;
 @property (nonatomic, weak) UILabel *textLabel;
 
 @end
 
-@implementation LNBadgeView
+@implementation GCBadgeView
 {
 	NSString *_identifier;
 	id observer;

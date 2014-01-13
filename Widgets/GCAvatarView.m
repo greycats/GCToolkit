@@ -1,20 +1,19 @@
 //
-//  LNAvatarView.m
+//  GCAvatarView.m
 //  threadflip
 //
 //  Created by Rex Sheng on 4/5/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
-#import "LNAvatarView.h"
-#import "LNImageView.h"
+#import "GCAvatarView.h"
+#import "GCImageView.h"
 #import <objc/runtime.h>
 
-NSString * const LNAvatarViewURLKey = @"URL";
+NSString * const GCAvatarViewURLKey = @"URL";
 
-@implementation LNAvatarView
+@implementation GCAvatarView
 {
-	LNImageView *avatarView;
+	GCImageView *avatarView;
 	NSString *identifier;
 	id observer;
 }
@@ -25,9 +24,9 @@ NSString * const LNAvatarViewURLKey = @"URL";
 		identifier = _identifier;
 		if (identifier)
 			observer = [[NSNotificationCenter defaultCenter] addObserverForName:identifier object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
-				self.imageURL = [NSURL URLWithString:note.object[LNAvatarViewURLKey]];
+				self.imageURL = [NSURL URLWithString:note.object[GCAvatarViewURLKey]];
 			}];
-		self.imageURL = [NSURL URLWithString:attributes[LNAvatarViewURLKey]];
+		self.imageURL = [NSURL URLWithString:attributes[GCAvatarViewURLKey]];
 	}
 	return self;
 }
@@ -47,7 +46,7 @@ NSString * const LNAvatarViewURLKey = @"URL";
 	CGFloat radius_2 = MAX(frame.size.width, frame.size.height);
 	frame.size.width = frame.size.height = radius_2;
 	if (self = [super initWithFrame:frame]) {
-		avatarView = [[LNImageView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
+		avatarView = [[GCImageView alloc] initWithFrame:CGRectInset(self.bounds, 2, 2)];
 		avatarView.layer.masksToBounds = YES;
 		avatarView.layer.cornerRadius = (radius_2 - 4) / 2;
 		[self addSubview:avatarView];
@@ -70,9 +69,9 @@ NSString * const LNAvatarViewURLKey = @"URL";
 @end
 
 
-#pragma mark - LNAvatarView + FullScreen
+#pragma mark - GCAvatarView + FullScreen
 
-@implementation LNAvatarView (FullScreen)
+@implementation GCAvatarView (FullScreen)
 
 static char kFullScreenView;
 

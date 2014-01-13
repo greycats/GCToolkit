@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GCToolkit"
-  s.version      = "0.2.8"
+  s.version      = "0.3.0"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
   s.homepage     = "https://github.com/greycats/GCToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.subspec 'UIKit' do |ss|
-    ss.source_files = 'Categories/UIColor*.{h,m}', 'Categories/UIImage*.{h,m}', 'Widgets/LN{SegmentedControl,TextField}.{h,m}'
+    ss.source_files = 'Categories/UIColor*.{h,m}', 'Categories/UIImage*.{h,m}', 'Widgets/GC{SegmentedControl,TextField}.{h,m}'
   end
   
   s.subspec 'Bubble' do |ss|
@@ -28,12 +28,12 @@ Pod::Spec.new do |s|
     ss.dependency 'RSMenuView', '~> 1.0'
     ss.dependency 'GCToolkit/UIKit'
     ss.framework = 'QuartzCore'
-    ss.source_files = 'Widgets/LN{Avtar,Badge}*.{h,m}'
+    ss.source_files = 'Widgets/GC{Avtar,Badge}*.{h,m}'
   end
   
   s.subspec 'AFNetworking' do |ss|
     ss.dependency 'AFNetworking', '~> 1.3'
-    ss.source_files = 'Widgets/LN{Image,Remote}View.{h,m}'
+    ss.source_files = 'Widgets/GC{Image,Remote}View.{h,m}'
   end
 
 end

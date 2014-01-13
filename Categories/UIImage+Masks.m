@@ -2,10 +2,10 @@
 //  UIImage+LogN.m
 //
 //  Created by Rex Sheng on 8/12/13.
-//  Copyright (c) 2013 Log(N). All rights reserved.
+//  Copyright (c) 2013 Rex Sheng
 //
 
-#import "UIImage+LogN.h"
+#import "UIImage+Masks.h"
 
 @implementation UIImage (Blending)
 

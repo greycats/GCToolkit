@@ -2,7 +2,7 @@
 //  MBProgressHUD+Appearance.m
 //
 //  Created by Rex Sheng on 11/28/12.
-//  Copyright (c) 2012 Log(n) LLC. All rights reserved.
+//  Copyright (c) 2012 Rex Sheng
 //
 
 #import "MBProgressHUD+Appearance.h"

@@ -1,13 +1,13 @@
 //
-//  LNTextField.m
+//  GCTextField.m
 //
 //  Created by Rex Sheng on 9/5/12.
-//  Copyright (c) 2012 Log(n) LLC. All rights reserved.
+//  Copyright (c) 2012 Rex Sheng
 //
 
-#import "LNTextField.h"
+#import "GCTextField.h"
 
-@implementation LNTextField
+@implementation GCTextField
 
 + (NSMutableDictionary *)registry
 {
@@ -21,7 +21,7 @@
 
 + (void)initialize
 {
-	[self registerValidation:LNTextValidateEmail regularExpression:
+	[self registerValidation:GCTextValidateEmail regularExpression:
 	 @"(?:[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%\\&'*+/=?\\^_`{|}"
 	 @"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
 	 @"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-"
@@ -29,7 +29,7 @@
 	 @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
 	 @"9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
 	 @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"];
-	[self registerValidation:LNTextValidateRequired regularExpression:@"^\\S(?:.*?\\S)?$"];
+	[self registerValidation:GCTextValidateRequired regularExpression:@"^\\S(?:.*?\\S)?$"];
 }
 
 + (void)registerValidation:(NSUInteger)validationType regularExpression:(NSString *)expression
@@ -49,7 +49,7 @@
 		self.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		self.clipsToBounds = YES;
-		_validateType = LNTextValidateNone;
+		_validateType = GCTextValidateNone;
 	}
 	return self;
 }
@@ -75,16 +75,16 @@
 
 - (void)setValidateRegularExpression:(NSString *)validateRegularExpression
 {
-	_validateType = LNTextValidateCustom;
+	_validateType = GCTextValidateCustom;
 	self.validatePredicate = [NSPredicate predicateWithFormat:@"self matches %@", validateRegularExpression];
 }
 
 //This is special. "isValid:" method returns YES if ANY ONE of flag's predicate is true. ATTENTION!
 - (BOOL)isValid:(NSString *)text
 {
-	if (_validateType == LNTextValidateNone) return YES;
+	if (_validateType == GCTextValidateNone) return YES;
 	__block BOOL isValid = NO;
-	if (_validateType & LNTextValidateCustom) {
+	if (_validateType & GCTextValidateCustom) {
 		isValid |= [_validatePredicate evaluateWithObject:text];
 	}
 	[self.class.registry enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
@@ -193,12 +193,12 @@
 
 @end
 
-@implementation UIView (LNTextFieldValidate)
+@implementation UIView (GCTextFieldValidate)
 
 - (BOOL)validateAllTextFields:(NSError *__autoreleasing *)error
 {
-	for (LNTextField *textfield in self.subviews) {
-		if ([textfield isKindOfClass:[LNTextField class]]) {
+	for (GCTextField *textfield in self.subviews) {
+		if ([textfield isKindOfClass:[GCTextField class]]) {
 			if (![textfield validate:error]) return NO;
 		}
 	}

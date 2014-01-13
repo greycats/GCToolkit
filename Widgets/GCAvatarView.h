@@ -1,17 +1,16 @@
 //
-//  LNAvatarView.h
+//  GCAvatarView.h
 //  threadflip
 //
 //  Created by Rex Sheng on 4/5/13.
-//  Copyright (c) 2013 Log(n) LLC. All rights reserved.
-//
+//  Copyright (c) 2013 Rex Sheng
 
 #import <UIKit/UIKit.h>
 #import "RSMenuCellItem.h"
 
-extern NSString * const LNAvatarViewURLKey;
+extern NSString * const GCAvatarViewURLKey;
 
-@interface LNAvatarView : UIView <RSMenuCellItem>
+@interface GCAvatarView : UIView <RSMenuCellItem>
 
 @property (nonatomic, strong) NSURL *imageURL;
 /** Change image and prevent networking changes */
@@ -20,7 +19,7 @@ extern NSString * const LNAvatarViewURLKey;
 @end
 
 
-@interface LNAvatarView (FullScreen)
+@interface GCAvatarView (FullScreen)
 
 - (void)enableFullScreen;
 
