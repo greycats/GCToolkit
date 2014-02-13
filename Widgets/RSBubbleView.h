@@ -26,5 +26,6 @@ typedef NS_OPTIONS(NSUInteger, RSBubbleType) {
 
 @property (nonatomic, copy) NSArray *colors;
 @property (nonatomic, copy) NSArray *locations;
+@property (nonatomic, readonly, strong) CALayer *contentMaskLayer;
 
 @end
