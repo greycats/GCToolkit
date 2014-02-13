@@ -10,13 +10,13 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    if (self = [super initWithFrame:frame]) {
+	if (self = [super initWithFrame:frame]) {
 		self.backgroundColor = [UIColor clearColor];
 		self.contentMode = UIViewContentModeRedraw;
 		_cornerRadius = 10.5f;
 		_arrowSize = CGRectMake(30, 0, 14, 9);
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)setArrowType:(RSBubbleType)arrowType
@@ -56,12 +56,12 @@
 	BOOL _top = (_arrowType & (RSBubbleTopLeft | RSBubbleTopRight)) != 0;
 	BOOL _bottom = (_arrowType & (RSBubbleBottomLeft | RSBubbleBottomRight)) != 0;
 	BOOL middle = (_arrowType & RSBubbleMiddle) != 0;
-	
+
 	BOOL left = _left && _arrowSize.origin.y != 0;
 	BOOL right = _right && _arrowSize.origin.y != 0;
 	BOOL top = _top && _arrowSize.origin.x != 0;
 	BOOL bottom = _bottom && _arrowSize.origin.x != 0;
-	
+
 	CGFloat minX = CGRectGetMinX(rect) + left * _arrowSize.size.width;
 	CGFloat maxX = CGRectGetMaxX(rect) - right * _arrowSize.size.width;
 	CGFloat minY = CGRectGetMinY(rect) + top * _arrowSize.size.height;
@@ -78,7 +78,7 @@
 		//top arrow
 		x += CGRectGetMinX(_arrowSize);
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x + _right * ahwidth, y - _arrowSize.size.height + inset);
+		CGPathAddLineToPoint(path, NULL, x + (middle ? ahwidth : _right * ahwidth), y - _arrowSize.size.height + inset);
 		CGPathAddLineToPoint(path, NULL, x + awidth, y);
 	}
 	x = maxX;
@@ -89,7 +89,7 @@
 		//right arrow
 		y += CGRectGetMinY(_arrowSize);
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x + _arrowSize.size.width - inset, y + _bottom * ahheight);
+		CGPathAddLineToPoint(path, NULL, x + _arrowSize.size.width - inset, y + (middle ? ahheight : _bottom * ahheight));
 		CGPathAddLineToPoint(path, NULL, x, y + aheight);
 	}
 	//bottom right
@@ -100,7 +100,7 @@
 	if (bottom) {
 		x += CGRectGetMaxX(_arrowSize) - 2 * inset;
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x - _left * ahwidth, y + _arrowSize.size.height - inset);
+		CGPathAddLineToPoint(path, NULL, x - (middle ? ahwidth : _left * ahwidth), y + _arrowSize.size.height - inset);
 		CGPathAddLineToPoint(path, NULL, x - awidth, y);
 	}
 	//bottom left
@@ -111,7 +111,7 @@
 	if (left) {
 		y += CGRectGetMaxY(_arrowSize) - 2 * inset;
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x - _arrowSize.size.width + inset, y - _top * ahheight);
+		CGPathAddLineToPoint(path, NULL, x - _arrowSize.size.width + inset, y - (middle ? ahheight : _top * ahheight));
 		CGPathAddLineToPoint(path, NULL, x, y - aheight);
 	}
 	CGPathCloseSubpath(path);
@@ -120,38 +120,58 @@
 	return bpath;
 }
 
+- (CALayer *)contentMaskLayer
+{
+	CAShapeLayer *mask = [CAShapeLayer layer];
+	mask.lineWidth = 0;
+	CGFloat inset = 0;
+	if (_bubbleBorderWidth) {
+		inset += _bubbleBorderWidth - .5f;
+	}
+	inset += _whiteInset;
+	if (inset) {
+		inset += 1;
+	}
+	mask.path = [self bubblePathInset:inset].CGPath;
+	return mask;
+}
+
 - (void)drawRect:(CGRect)rect
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+	CGPathRef path;
+
 	CGFloat inset = 0;
 	if (_bubbleBorderWidth) {
 		CGContextSaveGState(context);
 		CGContextSetLineJoin(context, kCGLineJoinBevel);
-		CGPathRef path = [self bubblePathInset:inset].CGPath;
+		path = [self bubblePathInset:inset].CGPath;
 		CGContextAddPath(context, path);
+
 		CGContextSetFillColorWithColor(context, _bubbleBorderColor.CGColor);
 		CGContextDrawPath(context, kCGPathFill);
 		CGContextRestoreGState(context);
 		inset += _bubbleBorderWidth - .5f;
 	}
-	
+
 	inset += _whiteInset;
 	if (inset) {
 		CGContextSaveGState(context);
-		CGPathRef path = [self bubblePathInset:inset].CGPath;
+		path = [self bubblePathInset:inset].CGPath;
 		CGContextAddPath(context, path);
+
 		CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
 		CGContextDrawPath(context, kCGPathFill);
 		CGContextRestoreGState(context);
 		inset += 1;
 	}
-	
+
 	CGContextSaveGState(context);
-	CGPathRef path = [self bubblePathInset:inset].CGPath;
+	path = [self bubblePathInset:inset].CGPath;
 	CGContextAddPath(context, path);
+
 	CGContextClip(context);
-	
+
 	if (_colors && _locations) {
 		CGFloat locations[_locations.count];
 		for (int i = 0; i < _locations.count; i++) {

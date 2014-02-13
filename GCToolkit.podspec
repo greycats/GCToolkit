@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GCToolkit"
-  s.version      = "0.3.0"
+  s.version      = "0.3.1"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
   s.homepage     = "https://github.com/greycats/GCToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
@@ -31,9 +31,4 @@ Pod::Spec.new do |s|
     ss.source_files = 'Widgets/GC{Avtar,Badge}*.{h,m}'
   end
   
-  s.subspec 'AFNetworking' do |ss|
-    ss.dependency 'AFNetworking', '~> 1.3'
-    ss.source_files = 'Widgets/GC{Image,Remote}View.{h,m}'
-  end
-
 end
