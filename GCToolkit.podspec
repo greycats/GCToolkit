@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GCToolkit"
-  s.version      = "0.3.2"
+  s.version      = "0.3.3"
   s.summary      = "hex colors, shadows, textfield with appearance apis..."
   s.homepage     = "https://github.com/greycats/GCToolkit"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }

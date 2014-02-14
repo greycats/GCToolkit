@@ -6,6 +6,9 @@
 
 #import "RSBubbleView.h"
 
+@interface RSBubbleView ()
+@property (nonatomic) BOOL left, right, top, bottom, middle;
+@end
 @implementation RSBubbleView
 
 - (id)initWithFrame:(CGRect)frame
@@ -22,6 +25,13 @@
 - (void)setArrowType:(RSBubbleType)arrowType
 {
 	_arrowType = arrowType;
+
+	_left = (_arrowType & (RSBubbleTopLeft | RSBubbleBottomLeft)) != 0;
+	_right = (_arrowType & (RSBubbleTopRight | RSBubbleBottomRight)) != 0;
+	_top = (_arrowType & (RSBubbleTopLeft | RSBubbleTopRight)) != 0;
+	_bottom = (_arrowType & (RSBubbleBottomLeft | RSBubbleBottomRight)) != 0;
+	_middle = (_arrowType & RSBubbleMiddle) != 0;
+
 	[self setNeedsDisplay];
 }
 
@@ -45,17 +55,9 @@
 
 - (UIBezierPath *)bubblePathInset:(CGFloat)inset
 {
-	//	CGFloat delta = inset * M_SQRT1_2;
-	//	creating the path
 	CGMutablePathRef path = CGPathCreateMutable();
-	//topleft
-	CGFloat radius = _cornerRadius - inset * M_SQRT1_2;
+	CGFloat radius = _cornerRadius - inset;
 	CGRect rect = CGRectInset(self.bounds, inset, inset);
-	BOOL _left = (_arrowType & (RSBubbleTopLeft | RSBubbleBottomLeft)) != 0;
-	BOOL _right = (_arrowType & (RSBubbleTopRight | RSBubbleBottomRight)) != 0;
-	BOOL _top = (_arrowType & (RSBubbleTopLeft | RSBubbleTopRight)) != 0;
-	BOOL _bottom = (_arrowType & (RSBubbleBottomLeft | RSBubbleBottomRight)) != 0;
-	BOOL middle = (_arrowType & RSBubbleMiddle) != 0;
 
 	BOOL left = _left && _arrowSize.origin.y != 0;
 	BOOL right = _right && _arrowSize.origin.y != 0;
@@ -69,49 +71,49 @@
 	//top left
 	CGFloat x = minX, y = minY;
 	CGPathMoveToPoint(path, NULL, x, y + radius);
-	CGPathAddCurveToPoint(path, NULL, x, y, x, y, x + radius, y);
+	CGPathAddQuadCurveToPoint(path, NULL, x, y, x + radius, y);
 	CGFloat awidth = _arrowSize.size.width - 2 * inset;
-	CGFloat ahwidth = awidth / (middle ? 2 : 1);
+	CGFloat ahwidth = awidth / (_middle ? 2 : 1);
 	CGFloat aheight = _arrowSize.size.height - 2 * inset;
-	CGFloat ahheight = aheight / (middle ? 2 : 1);
+	CGFloat ahheight = aheight / (_middle ? 2 : 1);
 	if (top) {
 		//top arrow
 		x += CGRectGetMinX(_arrowSize);
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x + (middle ? ahwidth : _right * ahwidth), y - _arrowSize.size.height + inset);
+		CGPathAddLineToPoint(path, NULL, x + (_middle ? ahwidth : _right * ahwidth), y - _arrowSize.size.height + inset);
 		CGPathAddLineToPoint(path, NULL, x + awidth, y);
 	}
 	x = maxX;
 	//top right
 	CGPathAddLineToPoint(path, NULL, x - radius, y);
-	CGPathAddCurveToPoint(path, NULL, x, y, x, y, x, y + radius);
+	CGPathAddQuadCurveToPoint(path, NULL, x, y, x, y + radius);
 	if (right) {
 		//right arrow
 		y += CGRectGetMinY(_arrowSize);
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x + _arrowSize.size.width - inset, y + (middle ? ahheight : _bottom * ahheight));
+		CGPathAddLineToPoint(path, NULL, x + _arrowSize.size.width - inset, y + (_middle ? ahheight : _bottom * ahheight));
 		CGPathAddLineToPoint(path, NULL, x, y + aheight);
 	}
 	//bottom right
 	y = maxY;
 	CGPathAddLineToPoint(path, NULL, x, y - radius);
-	CGPathAddCurveToPoint(path, NULL, x, y, x, y, x - radius, y);
+	CGPathAddQuadCurveToPoint(path, NULL, x, y, x - radius, y);
 	x = minX;
 	if (bottom) {
 		x += CGRectGetMaxX(_arrowSize) - 2 * inset;
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x - (middle ? ahwidth : _left * ahwidth), y + _arrowSize.size.height - inset);
+		CGPathAddLineToPoint(path, NULL, x - (_middle ? ahwidth : _left * ahwidth), y + _arrowSize.size.height - inset);
 		CGPathAddLineToPoint(path, NULL, x - awidth, y);
 	}
 	//bottom left
 	x = minX;
 	CGPathAddLineToPoint(path, NULL, x + radius, y);
-	CGPathAddCurveToPoint(path, NULL, x, y, x, y, x, y - radius);
+	CGPathAddQuadCurveToPoint(path, NULL, x, y, x, y - radius);
 	y = minY;
 	if (left) {
 		y += CGRectGetMaxY(_arrowSize) - 2 * inset;
 		CGPathAddLineToPoint(path, NULL, x, y);
-		CGPathAddLineToPoint(path, NULL, x - _arrowSize.size.width + inset, y - (middle ? ahheight : _top * ahheight));
+		CGPathAddLineToPoint(path, NULL, x - _arrowSize.size.width + inset, y - (_middle ? ahheight : _top * ahheight));
 		CGPathAddLineToPoint(path, NULL, x, y - aheight);
 	}
 	CGPathCloseSubpath(path);
