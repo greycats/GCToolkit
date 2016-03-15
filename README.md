@@ -1,3 +1,3 @@
 # GCToolkit
 
-project is abandoned. please consider using `pod Greycats`
+project is abandoned. please consider to use `pod Greycats`
